@@ -1,4 +1,4 @@
-module github.com/philippseith/signalr
+module github.com/Byungjun25/signalr
 
 go 1.16
 
