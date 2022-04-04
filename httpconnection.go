@@ -135,7 +135,7 @@ func NewHTTPConnection(ctx context.Context, address string, options ...func(*htt
 				wsURL.RawQuery = q.Encode()
 				headers.Del("Authorization")
 			}
-			opts.HTTPHeader = httpConn.headers()
+			opts.HTTPHeader = headers
 		}
 
 		ws, _, err := websocket.Dial(ctx, wsURL.String(), opts)
