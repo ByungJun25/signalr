@@ -128,16 +128,14 @@ func NewHTTPConnection(ctx context.Context, address string, options ...func(*htt
 		opts := &websocket.DialOptions{}
 		if httpConn.headers != nil {
 			headers := httpConn.headers()
-			accessToken := ""
 			if headers.Get("Authorization") != "" {
-				accessToken = strings.ReplaceAll(headers.Get("Authorization"), "Bearer ", "")
+				accessToken := strings.ReplaceAll(headers.Get("Authorization"), "Bearer ", "")
+				q := wsURL.Query()
+				q.Set("access_token", accessToken)
+				wsURL.RawQuery = q.Encode()
 				headers.Del("Authorization")
 			}
 			opts.HTTPHeader = httpConn.headers()
-
-			q := wsURL.Query()
-			q.Set("access_token", accessToken)
-			wsURL.RawQuery = q.Encode()
 		}
 
 		ws, _, err := websocket.Dial(ctx, wsURL.String(), opts)
