@@ -17,8 +17,9 @@ type Doer interface {
 }
 
 type httpConnection struct {
-	client  Doer
-	headers func() http.Header
+	client      Doer
+	headers     func() http.Header
+	queryString func() string
 }
 
 // WithHTTPClient sets the http client used to connect to the signalR server
@@ -33,6 +34,14 @@ func WithHTTPClient(client Doer) func(*httpConnection) error {
 func WithHTTPHeaders(headers func() http.Header) func(*httpConnection) error {
 	return func(c *httpConnection) error {
 		c.headers = headers
+		return nil
+	}
+}
+
+// WithQueryString sets the function for providing query string of HTTP request
+func WithQueryString(queryString func() string) func(*httpConnection) error {
+	return func(c *httpConnection) error {
+		c.queryString = queryString
 		return nil
 	}
 }
@@ -58,6 +67,10 @@ func NewHTTPConnection(ctx context.Context, address string, options ...func(*htt
 	req, err := http.NewRequestWithContext(ctx, "POST", fmt.Sprintf("%s/negotiate", address), nil)
 	if err != nil {
 		return nil, err
+	}
+
+	if httpConn.queryString != nil {
+		req.URL.RawQuery = httpConn.queryString()
 	}
 
 	if httpConn.headers != nil {
@@ -90,15 +103,17 @@ func NewHTTPConnection(ctx context.Context, address string, options ...func(*htt
 	}
 
 	q := reqURL.Query()
-	q.Set("id", nr.ConnectionID)
+	if nr.ConnectionToken != "" {
+		q.Set("id", nr.ConnectionToken)
+	} else {
+		q.Set("id", nr.ConnectionID)
+	}
 	reqURL.RawQuery = q.Encode()
 
 	// Select the best connection
 	var conn Connection
 	switch {
-	case nr.getTransferFormats("WebTransports") != nil:
-		// TODO
-
+	// case nr.getTransferFormats("WebTransports") != nil:
 	case nr.getTransferFormats("WebSockets") != nil:
 		wsURL := reqURL
 
