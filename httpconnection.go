@@ -7,7 +7,6 @@ import (
 	"io"
 	"net/http"
 	"net/url"
-	"strings"
 
 	"nhooyr.io/websocket"
 )
@@ -127,15 +126,7 @@ func NewHTTPConnection(ctx context.Context, address string, options ...func(*htt
 
 		opts := &websocket.DialOptions{}
 		if httpConn.headers != nil {
-			headers := httpConn.headers()
-			if headers.Get("Authorization") != "" {
-				accessToken := strings.ReplaceAll(headers.Get("Authorization"), "Bearer ", "")
-				q := wsURL.Query()
-				q.Set("access_token", accessToken)
-				wsURL.RawQuery = q.Encode()
-				headers.Del("Authorization")
-			}
-			opts.HTTPHeader = headers
+			opts.HTTPHeader = httpConn.headers()
 		}
 
 		ws, _, err := websocket.Dial(ctx, wsURL.String(), opts)
