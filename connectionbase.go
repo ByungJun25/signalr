@@ -42,6 +42,10 @@ func (cb *ConnectionBase) SetConnectionID(id string) {
 	cb.connectionID = id
 }
 
+func (cb *ConnectionBase) Close() error {
+	return nil
+}
+
 // ReadWriteWithContext is a wrapper to make blocking io.Writer / io.Reader cancelable.
 // It can be used to implement cancellation of connections.
 // ReadWriteWithContext will return when either the Read/Write operation has ended or ctx has been canceled.

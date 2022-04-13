@@ -22,6 +22,10 @@ func newWebSocketConnection(ctx context.Context, connectionID string, conn *webs
 	return w
 }
 
+func (w *webSocketConnection) Close() error {
+	return w.conn.Close(websocket.StatusNormalClosure, "")
+}
+
 func (w *webSocketConnection) Write(p []byte) (n int, err error) {
 	messageType := websocket.MessageText
 	if w.transferMode == BinaryTransferMode {

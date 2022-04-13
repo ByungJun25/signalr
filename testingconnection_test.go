@@ -126,6 +126,10 @@ func (t *testingConnection) SetFailWrite(fail string) {
 	t.failWrite = fail
 }
 
+func (t *testingConnection) Close() error {
+	return nil
+}
+
 // newTestingConnectionForServer builds a testingConnection with an sent (but not yet received) handshake for testing a server
 func newTestingConnectionForServer() *testingConnection {
 	conn := newTestingConnection()

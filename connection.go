@@ -12,6 +12,7 @@ type Connection interface {
 	Context() context.Context
 	ConnectionID() string
 	SetConnectionID(id string)
+	Close() error
 }
 
 // TransferMode is either TextTransferMode or BinaryTransferMode

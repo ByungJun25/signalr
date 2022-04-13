@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"os"
 
+	"github.com/ByungJun25/signalr"
 	"github.com/go-kit/log"
-	"github.com/philippseith/signalr"
 )
 
 type loggerConfig struct {

@@ -55,6 +55,10 @@ func (pc *pipeConnection) Timeout() time.Duration {
 	return pc.timeout
 }
 
+func (pc *pipeConnection) Close() error {
+	return nil
+}
+
 func newClientServerConnections() (cliConn *pipeConnection, svrConn *pipeConnection) {
 	cliReader, srvWriter := io.Pipe()
 	srvReader, cliWriter := io.Pipe()
