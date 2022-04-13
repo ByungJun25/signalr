@@ -3,8 +3,8 @@ package router
 import (
 	"net/http"
 
+	"github.com/ByungJun25/signalr"
 	"github.com/go-chi/chi/v5"
-	"github.com/philippseith/signalr"
 )
 
 // WithChiRouter is a signalr.MappableRouter factory for signalr.Server.MapHTTP

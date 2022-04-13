@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ByungJun25/signalr"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"github.com/philippseith/signalr"
 )
 
 func TestSignalR(t *testing.T) {

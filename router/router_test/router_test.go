@@ -20,8 +20,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/philippseith/signalr"
-	"github.com/philippseith/signalr/router"
+	"github.com/ByungJun25/signalr"
+	"github.com/ByungJun25/signalr/router"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
